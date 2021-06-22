@@ -19,8 +19,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'N_EURO_N',
       theme: getAppTheme(context),
-      //home: MyHomePage(title: 'Flutter Demo Home Page'),
       home: getHomeScaffold(),
     );
   }
 }
+
+/*
+  README:
+  - When writing modules, use the moduleInterface.dart to load the widget from children files.
+    In that file, import the needed file, make a function to load the widget.
+    And then use that function in other files.
+    DON'T IMPORT EXTRA FILES IN FILES OTHER THAN THE moduleInterface.dart FILE!
+    This rule keeps the files not cluttered with imports.
+  - To test the module, load its widget straight from this main.dart file.
+    Do not implement the widget straight into the application, unless you know what you're doing.
+*/
