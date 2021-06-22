@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'N_EURO_N UI Demo',
+      title: 'N_EURO_N',
       theme: getAppTheme(context),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
       home: getHomeScaffold(),

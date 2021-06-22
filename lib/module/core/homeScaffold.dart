@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:n_euro_n_ui_demo/module/moduleInterface.dart';
+import 'package:n_euro_n/module/moduleInterface.dart';
 
 class HomeScaffold extends StatefulWidget {
   const HomeScaffold({Key? key}) : super(key: key);
