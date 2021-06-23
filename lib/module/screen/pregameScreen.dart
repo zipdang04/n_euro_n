@@ -15,7 +15,7 @@ class _preGameScreenState extends State<preGameScreen> {
   List<bool> _selections = List.generate(3, (index) => false);
 
   void _pushGameScreen() {
-    if ((_selections[0] == true) || (_selections[1] == true) || (_selections[2] == true))
+    // if ((_selections[0] == true) || (_selections[1] == true) || (_selections[2] == true))
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => exercise.getDestination()),
