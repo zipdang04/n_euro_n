@@ -11,7 +11,7 @@ class HomeScaffold extends StatefulWidget {
 class _HomeScaffoldState extends State<HomeScaffold> {
   int _selectedTab = 2;
   List<Widget> _tabs = <Widget>[
-    Placeholder(color: Colors.indigo,),
+    getAllExerciseScreen(),
     Placeholder(color: Colors.amber,),
     getHomeScreen(),
     Placeholder(color: Colors.deepOrange,),
@@ -24,6 +24,13 @@ class _HomeScaffoldState extends State<HomeScaffold> {
   }
   @override
   Widget build(BuildContext context) {
+    _tabs = <Widget>[
+      getAllExerciseScreen(),
+      Placeholder(color: Colors.amber,),
+      getHomeScreen(),
+      Placeholder(color: Colors.deepOrange,),
+      Placeholder(color: Colors.deepPurple,)
+    ];
     return Scaffold(
       //appBar: AppBar(title: Text('Demo'),),
       body: SafeArea(
