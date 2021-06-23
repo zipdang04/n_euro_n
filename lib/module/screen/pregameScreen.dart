@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:n_euro_n/module/core/exerciseHandler.dart';
+import 'package:n_euro_n/module/core/appTheme.dart';
 
 class preGameScreen extends StatefulWidget {
   preGameScreen({Key? key, required this.exercise}) : super(key: key);
@@ -31,9 +32,8 @@ class _preGameScreenState extends State<preGameScreen> {
         body: new Center(child: new Column(
           children: [
             new SizedBox(height: 60,),
-            new Text(exercise.getName(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),),
-            new Expanded(child: new Text(exercise.getDescription(), style: TextStyle(fontSize: 20, color: Colors.white)),),
-            _chonDoKho(),
+            new Text(exercise.getName(), style: Theme.of(context).textTheme.headline4,),
+            new Expanded(child: new Text(exercise.getDescription(), style: Theme.of(context).textTheme.headline6,),),
             new Text(' '),
             _nutPlay(),
             _nutBack(),
@@ -93,7 +93,7 @@ class _preGameScreenState extends State<preGameScreen> {
         child: ElevatedButton(
           style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.amber)),
           onPressed: _pushGameScreen,
-          child: Text('PLAY!', style: TextStyle(fontSize: 40),),
+          child: Text('PLAY!', style: Theme.of(context).textTheme.headline3,),
         )
     );
   }
@@ -101,7 +101,7 @@ class _preGameScreenState extends State<preGameScreen> {
   Widget _nutBack() {
     return ElevatedButton(
         onPressed: _popPreGameScreen,
-        child: Text('BACK')
+        child: Text('BACK', style: Theme.of(context).textTheme.headline6,)
     );
   }
 }
