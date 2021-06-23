@@ -55,12 +55,14 @@ List<Exercise> getExerciseList() {
     Exercise(
       name: 'Number Type Speed',
       exerciseDestination: getGameNumberTypeSpeed(),
+      description: "Type as fast as possible"
     )
   );
   _items.add(
     Exercise(
       name: 'Quick Math', //two plus two is four, minus one it's three quick math!
-      exerciseDestination: getQuickMath()
+      exerciseDestination: getQuickMath(),
+      description: "Calculate as possible"
     ),
   );
   return _items;
