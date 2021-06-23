@@ -28,30 +28,42 @@ class _preGameScreenState extends State<preGameScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold (
-        body: new Stack(children: [
-          new ListView(
-            padding: EdgeInsets.only(top: 50, left: 20, right: 20),
-            children: [
-              Text(exercise.getName(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),),
-              Text(exercise.getDescription(), style: TextStyle(fontSize: 20, color: Colors.white))
+        body: new Center(child: new Column(
+          children: [
+            new SizedBox(height: 60,),
+            new Text(exercise.getName(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),),
+            new Expanded(child: new Text(exercise.getDescription(), style: TextStyle(fontSize: 20, color: Colors.white)),),
+            _chonDoKho(),
+            new Text(' '),
+            _nutPlay(),
+            _nutBack(),
             ],
           ),
-          new Positioned(
-              left: 58,
-              top: 500,
-              child: _chonDoKho()
-          ),
-          new Positioned(
-              left: 92,
-              top: 560,
-              child: _nutPlay()
-          ),
-          new Positioned(
-              top: 650,
-              left: 157,
-              child: _nutBack()
-          ),
-        ],));
+        ));
+        // new Stack(children: [
+        //   new ListView(
+        //     padding: EdgeInsets.only(top: 50, left: 20, right: 20),
+        //     children: [
+        //       Text(exercise.getName(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),),
+        //       Text(exercise.getDescription(), style: TextStyle(fontSize: 20, color: Colors.white))
+        //     ],
+        //   ),
+        //   new Positioned(
+        //       left: 58,
+        //       top: 500,
+        //       child: _chonDoKho()
+        //   ),
+        //   new Positioned(
+        //       left: 92,
+        //       top: 560,
+        //       child: _nutPlay()
+        //   ),
+        //   new Positioned(
+        //       top: 650,
+        //       left: 157,
+        //       child: _nutBack()
+        //   ),
+        // ],)
   }
 
   Widget _chonDoKho() {
