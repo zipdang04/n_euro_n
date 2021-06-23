@@ -20,28 +20,3 @@ class AllExerciseScreen extends StatelessWidget {
     );
   }
 }
-
-class ExerciseCard extends StatelessWidget {
-  ExerciseCard({Key? key, required this.exerciseData}) : super(key: key);
-  Exercise exerciseData;
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Card(
-        child: Container(
-          child: Text(exerciseData.getName()),
-          padding: EdgeInsets.all(8),
-        ),
-      ),
-    );
-  }
-}
-
-List<ExerciseCard> getExerciseCardList() {
-  List<ExerciseCard> _items = [];
-  List<Exercise> _exercises = getExerciseList();
-  for (int _i = 0; _i < _exercises.length; _i++) {
-    _items.add(ExerciseCard(exerciseData: _exercises.elementAt(_i)));
-  }
-  return _items;
-}

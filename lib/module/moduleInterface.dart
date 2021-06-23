@@ -3,6 +3,8 @@ import 'core/homeScaffold.dart';
 import 'core/appTheme.dart';
 import 'screen/homeScreen.dart';
 import 'screen/allExerciseScreen.dart';
+import 'screen/pregameScreen.dart';
+import 'core/exerciseHandler.dart';
 
 Widget getHomeScaffold() {
   return HomeScaffold();
@@ -18,4 +20,8 @@ Widget getHomeScreen() {
 
 Widget getAllExerciseScreen() {
   return AllExerciseScreen();
+}
+
+Widget getPreGameScreen(Exercise _exercise) {
+  return PreGameScreen(exercise: _exercise,);
 }

@@ -32,7 +32,7 @@ class WelcomeBox extends StatelessWidget {
     _username = 'malego';
     return Container(
       padding: EdgeInsets.all(4),
-      child: SizedBox(
+      child: Container(
         height: 96,
         child: Row(
           children: [
