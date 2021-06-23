@@ -314,6 +314,7 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
       _secondaryReactionStream.sendData('update');
       _scoreUpdateStream.sendData('update');
     }
+    _secondaryReactionStream.sendData('update');
   }
   void _startGame() {
     _counter = 91;
