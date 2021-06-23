@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:n_euro_n/module/screen/postgameScreen.dart';
 
 /*
 class NumberTypeSpeedGameScreen extends StatefulWidget {
@@ -170,6 +170,8 @@ var _extBuildContext;
 void _closeStreams() {
   _reactionStream.dispose();
   _secondaryReactionStream.dispose();
+  _timerUpdateStream.dispose();
+  _scoreUpdateStream.dispose();
 }
 
 class NumberTypeSpeedGameScreen extends StatelessWidget {
@@ -269,10 +271,10 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
   int _answerActualNumber = 0;
   String _answerBoxNumber = '';
   int _currentLevel = 0;
-  int maxLevel = 10;
+  int maxLevel = 3;
   int _score = 0;
-  int _counter = 90;
-  Timer _timer = Timer(Duration(seconds: 1), () => {});
+  double _counter = 90;
+  Timer _timer = Timer.periodic(Duration(days: 1,), (timer) => {});
   bool _finished = false;
   int _generateNumberForLevel(int _level) {
     return _level * 101 + 50;
@@ -303,26 +305,36 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
       _answerBoxNumber += _value;
     }
     if (_answerNumber == _answerBoxNumber) {
+      _score += _getPointPerLevel(_currentLevel, _answerActualNumber);
       if (_currentLevel < maxLevel) {
-        _score += _getPointPerLevel(_currentLevel, _answerActualNumber);
-        _scoreUpdateStream.sendData('update');
         _newLevel();
       } else {
-        _answerNumber = 'Done';
+        _endGame();
       }
       _secondaryReactionStream.sendData('update');
+      _scoreUpdateStream.sendData('update');
     }
   }
   void _startGame() {
     _counter = 91;
     _score = 0;
     _newLevel();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    if (_timer.isActive) {
+      _timer.cancel();
+    }
+    _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
       if (_counter > 0) {
-        _counter--;
+        _counter -= 0.1;
+        _counter = (_counter * 10).round() / 10;
+        if (_counter >= 90) {
+          _reactionStream.sendData('-delete');
+        }
         _timerUpdateStream.sendData('update');
-      } else {
-        //
+      } else if (_counter == 0) {
+        _endGame();
       }
     });
   }
@@ -331,11 +343,21 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
       return;
     }
     _finished = true;
+    _answerNumber = 'Done';
+    _secondaryReactionStream.sendData('update');
+    _timer.cancel();
+    //_closeStreams();
+    /*Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PostGameScreen(playerScore: _score,)),
+    );*/
   }
   @override
   Widget build(BuildContext context) {
+    _finished = false;
     //_newLevel();
     //return Container(height: 200, width: 200, color: Colors.red,);
+    _timer.cancel();
     return Expanded(
       child: Column(
         children: [
@@ -394,7 +416,15 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
                         } else if (snapshot.hasError) {
                         } else {
                           String _value = snapshot.data.toString();
-                          _onStreamUpdate(_value);
+                          //_onStreamUpdate(_value);
+                          if (_counter <= 90) {
+                            _onStreamUpdate(_value);
+                          }
+                        }
+                        if (_counter > 90) {
+                          _answerBoxNumber = 'Locked';
+                        } else if (_answerBoxNumber == 'Locked') {
+                          _answerBoxNumber = '';
                         }
                         return Text(_answerBoxNumber, style: Theme.of(context).textTheme.headline4,);
                       },
