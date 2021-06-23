@@ -295,8 +295,8 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
       } else {
         _answerNumber = 'Done';
       }
-      _secondaryReactionStream.sendData('update');
     }
+    _secondaryReactionStream.sendData('update');
   }
   @override
   Widget build(BuildContext context) {
