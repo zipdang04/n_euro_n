@@ -23,5 +23,5 @@ Widget getAllExerciseScreen() {
 }
 
 Widget getPreGameScreen(Exercise _exercise) {
-  return PreGameScreen(exercise: _exercise,);
+  return preGameScreen(exercise: _exercise,);
 }
