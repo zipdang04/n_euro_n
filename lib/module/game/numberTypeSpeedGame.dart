@@ -273,6 +273,7 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
     _answerBoxNumber = '';
     _currentLevel++;
     _answerNumber = _generateNumberForLevel(_currentLevel).toString();
+    _secondaryReactionStream.sendData('update');
   }
   void _onStreamUpdate(String _value) {
     if (_value[0] == '-') {
