@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /*
@@ -162,6 +163,8 @@ class ReactToKeypad {
 
 ReactToKeypad _reactionStream = new ReactToKeypad();
 ReactToKeypad _secondaryReactionStream = new ReactToKeypad();
+ReactToKeypad _timerUpdateStream = new ReactToKeypad();
+ReactToKeypad _scoreUpdateStream = new ReactToKeypad();
 var _extBuildContext;
 
 void _closeStreams() {
@@ -262,17 +265,27 @@ class NumberTypeSpeedGameDisplay extends StatefulWidget {
 }
 
 class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay> {
-  String _answerNumber = '';
+  String _answerNumber = 'Press Start';
+  int _answerActualNumber = 0;
   String _answerBoxNumber = '';
   int _currentLevel = 0;
-  int maxLevel = 5;
+  int maxLevel = 10;
+  int _score = 0;
+  int _counter = 90;
+  Timer _timer = Timer(Duration(seconds: 1), () => {});
+  bool _finished = false;
   int _generateNumberForLevel(int _level) {
     return _level * 101 + 50;
   }
   void _newLevel() {
     _answerBoxNumber = '';
     _currentLevel++;
-    _answerNumber = _generateNumberForLevel(_currentLevel).toString();
+    _answerActualNumber = _generateNumberForLevel(_currentLevel);
+    _answerNumber = _answerActualNumber.toString();
+    _secondaryReactionStream.sendData('update');
+  }
+  int _getPointPerLevel(int _level, int _number) {
+    return _level;
   }
   void _onStreamUpdate(String _value) {
     if (_value[0] == '-') {
@@ -284,19 +297,40 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
         _answerBoxNumber = '';
       } else if (_value == '-restart') {
         _currentLevel = 0;
-        _newLevel();
+        _startGame();
       }
     } else {
       _answerBoxNumber += _value;
     }
     if (_answerNumber == _answerBoxNumber) {
       if (_currentLevel < maxLevel) {
+        _score += _getPointPerLevel(_currentLevel, _answerActualNumber);
+        _scoreUpdateStream.sendData('update');
         _newLevel();
       } else {
         _answerNumber = 'Done';
       }
     }
     _secondaryReactionStream.sendData('update');
+  }
+  void _startGame() {
+    _counter = 91;
+    _score = 0;
+    _newLevel();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_counter > 0) {
+        _counter--;
+        _timerUpdateStream.sendData('update');
+      } else {
+        //
+      }
+    });
+  }
+  void _endGame() {
+    if (_finished) {
+      return;
+    }
+    _finished = true;
   }
   @override
   Widget build(BuildContext context) {
@@ -308,15 +342,37 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
           Expanded(
             child: Card(
               child: Container(
-                padding: EdgeInsets.all(8),
-                child: Center(
-                  //child: Text(_answerNumber, style: Theme.of(context).textTheme.headline3,),
-                  child: StreamBuilder<String>(
-                    stream: _secondaryReactionStream.stream,
-                    builder: (context, snapshot) {
-                      return Text(_answerNumber, style: Theme.of(context).textTheme.headline3,);
-                    }
-                  ),
+                padding: EdgeInsets.all(16),
+                child: Stack(
+                  children: [
+                    Center(
+                      //child: Text(_answerNumber, style: Theme.of(context).textTheme.headline3,),
+                      child: StreamBuilder<String>(
+                        stream: _secondaryReactionStream.stream,
+                        builder: (context, snapshot) {
+                          return Text(_answerNumber, style: Theme.of(context).textTheme.headline3,);
+                        }
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: StreamBuilder<String>(
+                        stream: _scoreUpdateStream.stream,
+                        builder: (context, snapshot) {
+                          return Text(_score.toString() + 'pts', style: Theme.of(context).textTheme.headline6,);
+                        },
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topRight,
+                      child: StreamBuilder<String>(
+                        stream: _timerUpdateStream.stream,
+                        builder: (context, snapshot) {
+                          return Text(_counter.toString() + 's', style: Theme.of(context).textTheme.headline6,);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
