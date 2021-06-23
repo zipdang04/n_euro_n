@@ -32,7 +32,7 @@ class WelcomeBox extends StatelessWidget {
     _username = 'malego';
     return Container(
       padding: EdgeInsets.all(4),
-      child: SizedBox(
+      child: Container(
         height: 96,
         child: Row(
           children: [
@@ -122,17 +122,19 @@ class HomeScreenDashboard {
   List<Widget> getDashboardTasks2InARow() {
     List<Widget> _itemsPending = [];
     for (int _i = 0; _i < 3; _i++){
-      _itemsPending.add(Expanded(
-        child: Card(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: SizedBox(
-              height: 128,
-              child: Text('Box number #' + (_i + 1).toString()),
+      _itemsPending.add(
+        Expanded(
+          child: Card(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              child: SizedBox(
+                height: 128,
+                child: Text('Box number #' + (_i + 1).toString()),
+              ),
             ),
           ),
         ),
-      ));
+      );
     }
     List<Widget> _items = [];
     for (int _i = 0; _i < _itemsPending.length; _i += 2) {

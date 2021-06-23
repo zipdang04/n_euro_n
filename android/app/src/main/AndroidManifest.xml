@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.n_euro_n">
    <application
-        android:label="n_euro_n"
+        android:label="N_EURO_N"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

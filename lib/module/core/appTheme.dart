@@ -7,6 +7,7 @@ ThemeData pickAppTheme(BuildContext context) {
     primaryColor: Color(0xFF33598A),
     accentColor: Color(0xFF05B2DC),
     shadowColor: Color(0xFF0D1930),
+    cardColor: Color(0xFFB3C2F2),
     cardTheme: CardTheme(
       color: Color(0xFF466895),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
@@ -22,6 +23,12 @@ ThemeData pickAppTheme(BuildContext context) {
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: Color(0xFF6ED0F3),
       foregroundColor: Color(0xFF1F487E),
+    ),
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: {
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.android: ZoomPageTransitionsBuilder(),
+      },
     ),
     fontFamily: 'Roboto',
     textTheme: TextTheme(
@@ -42,6 +49,11 @@ ThemeData pickAppTheme(BuildContext context) {
       ),
       headline6: GoogleFonts.robotoSlab(
         textStyle: TextStyle(color: Color(0xFFE0F2E9),),
+      ),
+    ),
+    accentTextTheme: TextTheme(
+      headline4: GoogleFonts.robotoSlab(
+        textStyle: TextStyle(color: Color(0xFF1F487E),),
       ),
     ),
   );
