@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:n_euro_n/module/screen/postgameScreen.dart';
 
+// two plus two is four, minus one it's three quick math :))
+
 class ReactToKeypad {
   final _controller = StreamController<String>.broadcast();
   Stream<String> get stream => _controller.stream;
@@ -140,9 +142,11 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
   String _answerBoxNumber = '';
   int _currentLevel = 0;
 
-  int maxLevel = 15;
+  int maxLevel = 100;
   int _score = 0;
-  double _counter = 90;
+
+  static const double _time = 90;
+  double _counter = _time;
 
   Timer _timer = Timer.periodic(
       Duration(
@@ -215,7 +219,7 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
   }
 
   void _startGame() {
-    _counter = 91;
+    _counter = _time + 1;
     _score = 0;
     _newLevel();
     if (_timer != null) {
@@ -228,7 +232,7 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
       if (_counter > 0) {
         _counter -= 0.1;
         _counter = (_counter * 10).round() / 10;
-        if (_counter >= 90) {
+        if (_counter >= _time) {
           _reactionStream.sendData('-delete');
         }
         _timerUpdateStream.sendData('update');
@@ -330,11 +334,11 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
                         } else {
                           String _value = snapshot.data.toString();
                           //_onStreamUpdate(_value);
-                          if (_counter <= 90) {
+                          if (_counter <= _time) {
                             _onStreamUpdate(_value);
                           }
                         }
-                        if (_counter > 90) {
+                        if (_counter > _time) {
                           _answerBoxNumber = 'Locked';
                         } else if (_answerBoxNumber == 'Locked') {
                           _answerBoxNumber = '';
