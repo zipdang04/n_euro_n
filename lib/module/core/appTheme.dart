@@ -8,6 +8,7 @@ ThemeData pickAppTheme(BuildContext context) {
     accentColor: Color(0xFF05B2DC),
     shadowColor: Color(0xFF0D1930),
     cardColor: Color(0xFFB3C2F2),
+    highlightColor: Colors.amber,
     cardTheme: CardTheme(
       color: Color(0xFF466895),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
@@ -52,7 +53,22 @@ ThemeData pickAppTheme(BuildContext context) {
       ),
     ),
     accentTextTheme: TextTheme(
+      headline1: GoogleFonts.robotoSlab(
+        textStyle: TextStyle(color: Color(0xFF1F487E),),
+      ),
+      headline2: GoogleFonts.robotoSlab(
+        textStyle: TextStyle(color: Color(0xFF1F487E),),
+      ),
+      headline3: GoogleFonts.robotoSlab(
+        textStyle: TextStyle(color: Color(0xFF1F487E),),
+      ),
       headline4: GoogleFonts.robotoSlab(
+        textStyle: TextStyle(color: Color(0xFF1F487E),),
+      ),
+      headline5: GoogleFonts.robotoSlab(
+        textStyle: TextStyle(color: Color(0xFF1F487E),),
+      ),
+      headline6: GoogleFonts.robotoSlab(
         textStyle: TextStyle(color: Color(0xFF1F487E),),
       ),
     ),

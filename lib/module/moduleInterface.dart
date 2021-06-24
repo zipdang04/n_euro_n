@@ -5,6 +5,7 @@ import 'screen/homeScreen.dart';
 import 'screen/allExerciseScreen.dart';
 import 'screen/pregameScreen.dart';
 import 'core/exerciseHandler.dart';
+import 'screen/settingScreen.dart';
 
 Widget getHomeScaffold() {
   return HomeScaffold();
@@ -24,4 +25,8 @@ Widget getAllExerciseScreen() {
 
 Widget getPreGameScreen(Exercise _exercise) {
   return preGameScreen(exercise: _exercise,);
+}
+
+Widget getSettingScreen() {
+  return SettingScreen();
 }

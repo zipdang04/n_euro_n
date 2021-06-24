@@ -14,8 +14,8 @@ class PostGameScreen extends StatelessWidget {
               child: Text(playerScore.toString(), style: Theme.of(context).textTheme.headline2,),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pop(context);
+                //Navigator.pop(context);
+                //Navigator.pop(context);
               },
             ),
           ),
