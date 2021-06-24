@@ -29,15 +29,21 @@ class _preGameScreenState extends State<preGameScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold (
-        body: new Center(child: new Column(
-          children: [
-            new SizedBox(height: 60,),
-            new Text(exercise.getName(), style: Theme.of(context).textTheme.headline4,),
-            new Expanded(child: new Text(exercise.getDescription(), style: Theme.of(context).textTheme.headline6,),),
-            new Text(' '),
-            _nutPlay(),
-            _nutBack(),
-            ],
+        body: Container(
+          padding: EdgeInsets.all(16),
+          child: new Center(child: new Column(
+            children: [
+              SizedBox(height: 60,),
+              Text(exercise.getName(), style: Theme.of(context).textTheme.headline4,),
+              SizedBox(height: 16,),
+              Expanded(child: new Text(exercise.getDescription(), style: Theme.of(context).textTheme.headline6,),),
+              Text(' '),
+              _nutPlay(),
+              SizedBox(height: 32,),
+              _nutBack(),
+              SizedBox(height: 32,),
+              ],
+            ),
           ),
         ));
         // new Stack(children: [
@@ -91,9 +97,9 @@ class _preGameScreenState extends State<preGameScreen> {
         width: 200,
         height: 80,
         child: ElevatedButton(
-          style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.amber)),
+          style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).highlightColor)),
           onPressed: _pushGameScreen,
-          child: Text('PLAY!', style: Theme.of(context).textTheme.headline3,),
+          child: Text('PLAY!', style: Theme.of(context).accentTextTheme.headline3,),
         )
     );
   }
@@ -101,7 +107,7 @@ class _preGameScreenState extends State<preGameScreen> {
   Widget _nutBack() {
     return ElevatedButton(
         onPressed: _popPreGameScreen,
-        child: Text('BACK', style: Theme.of(context).textTheme.headline6,)
+        child: Text('Back', style: Theme.of(context).textTheme.headline6,)
     );
   }
 }
