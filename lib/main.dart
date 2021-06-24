@@ -1,9 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'module/core/exerciseInstance/exerciseInstance.dart';
 import 'module/moduleInterface.dart';
+import 'module/core/personalProgressHandler.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final appDocumentDirectory = await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDirectory.path);
+  Hive.registerAdapter<ExerciseInstance>(ExerciseInstanceAdapter());
+  await initBoxes();
   LicenseRegistry.addLicense(() async* {
     final _license = await rootBundle.loadString('google_fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], _license);

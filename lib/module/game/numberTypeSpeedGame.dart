@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:n_euro_n/module/core/personalProgressHandler.dart';
 
 class StringUpdateStream {
   final _controller = StreamController<String>.broadcast();
@@ -134,13 +136,16 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
   int _answerActualNumber = 0;
   String _answerBoxNumber = '';
   int _currentLevel = 0;
-  int maxLevel = 3;
+  int maxLevel = 200;
   int _score = 0;
   double _counter = 90;
   Timer _timer = Timer.periodic(Duration(days: 1,), (timer) => {});
   bool _finished = false;
   int _generateNumberForLevel(int _level) {
-    return _level * 101 + 50;
+    //print(_level);
+    Random _random = Random();
+    int _randomNumber = _random.nextInt(100 + _level * 200) + _level * 150 + _random.nextInt(10) + _random.nextInt(100);
+    return _randomNumber;
   }
   void _newLevel() {
     _answerNumber = '';
@@ -155,7 +160,7 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
     return _level;
   }
   int _getFinalScore(int _currentScore, double _timeLeft) {
-    return _currentScore * 100 + _timeLeft.round();
+    return _currentScore * 1 + _timeLeft.round();
   }
   void _onStreamUpdate(String _value) {
     if (_value[0] == '-') {
@@ -207,14 +212,16 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
       }
     });
   }
-  void _endGame() {
+  void _endGame() async {
     if (_finished) {
       return;
     }
     _finished = true;
+    int _finalScore = _getFinalScore(_score, _counter);
+    addGameToHistory('Number Type Speed', _finalScore); // USE THE SAME NAME FROM THE ExerciseHandler.dart FILE
     _answerNumber = 'Done';
     _secondaryReactionStream.sendData('update');
-    _answerBoxNumber = 'Final score: ' + _getFinalScore(_score, _counter).toString();
+    _answerBoxNumber = 'Final score: ' + _finalScore.toString();
     _reactionStream.sendData('-delete');
     _timer.cancel();
     _timerUpdateStream.sendData('update');

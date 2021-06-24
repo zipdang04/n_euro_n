@@ -11,6 +11,7 @@ class HomeScreen extends StatelessWidget {
       ProgressBox(),
     ];
     _items.addAll(HomeScreenDashboard().getDashboardTasks2InARow());
+    _items.add(Container());
     return Container(
       child: ListView.separated(
         itemCount: _items.length,

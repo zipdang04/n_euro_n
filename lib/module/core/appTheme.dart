@@ -51,6 +51,12 @@ ThemeData pickAppTheme(BuildContext context) {
       headline6: GoogleFonts.robotoSlab(
         textStyle: TextStyle(color: Color(0xFFE0F2E9),),
       ),
+      subtitle1: GoogleFonts.robotoSlab(
+        textStyle: TextStyle(color: Color(0xFFE0F2E9),),
+      ),
+      subtitle2: GoogleFonts.robotoSlab(
+        textStyle: TextStyle(color: Color(0xFFE0F2E9),),
+      ),
     ),
     accentTextTheme: TextTheme(
       headline1: GoogleFonts.robotoSlab(
