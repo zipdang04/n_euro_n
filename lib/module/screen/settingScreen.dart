@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:n_euro_n/module/core/personalProgressHandler.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class SettingScreen extends StatelessWidget {
           height: 100,
           child: Expanded(
             child: RaisedButton(
-              onPressed: () {},
+              onPressed: () async => await clearBoxes(),
               child: Text('Reset Database'),
             ),
           ),

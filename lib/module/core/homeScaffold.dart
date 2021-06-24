@@ -27,7 +27,7 @@ class _HomeScaffoldState extends State<HomeScaffold> {
   Widget build(BuildContext context) {
     _tabs = <Widget>[
       getAllExerciseScreen(),
-      Placeholder(color: Colors.amber,),
+      getPersonalProgressScreen(),
       getHomeScreen(),
       Placeholder(color: Colors.deepOrange,),
       getSettingScreen(),
