@@ -19,6 +19,7 @@ class HomeScreen extends StatelessWidget {
           return Text(_items.toString());
         },
         separatorBuilder: (BuildContext context, int _index) => SizedBox(height: 16,),
+        physics: ClampingScrollPhysics(),
       ),
     );
   }

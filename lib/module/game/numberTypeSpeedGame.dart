@@ -1,156 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:n_euro_n/module/screen/postgameScreen.dart';
 
-/*
-class NumberTypeSpeedGameScreen extends StatefulWidget {
-  const NumberTypeSpeedGameScreen({Key? key}) : super(key: key);
-  @override
-  _NumberTypeSpeedGameScreenState createState() => _NumberTypeSpeedGameScreenState(startingPoint: 0);
-}
-
-class _NumberTypeSpeedGameScreenState extends State<NumberTypeSpeedGameScreen> {
-  _NumberTypeSpeedGameScreenState({required this.startingPoint});
-  int startingPoint;
-  String _answerNumber = '1';
-  String _answerBoxNumber = '1';
-  int _currentLevel = -1;
-  int maxLevel = 5;
-  int _generateNumberForLevel(int _level) {
-    return _level * 101 + 50;
-  }
-  void _newLevel() {
-    _answerBoxNumber = '';
-    _currentLevel++;
-    _answerNumber = _generateNumberForLevel(_currentLevel).toString();
-  }
-  Widget _keypadButton(String _buttonID, String _buttonType, String _buttonValue) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            if (_buttonType == 'num') {
-              _answerBoxNumber += _buttonValue;
-            } else {
-              if (_buttonID == 'backspace') {
-                _answerBoxNumber = _answerBoxNumber.substring(0, _answerBoxNumber.length - 1);
-              } else if (_buttonID == 'delete') {
-                _answerBoxNumber = '';
-              } else if (_buttonID == 'restart') {
-                _currentLevel = 0;
-                _newLevel();
-              }
-            }
-            if (_answerNumber == _answerBoxNumber) {
-              if (_currentLevel < maxLevel) {
-                _newLevel();
-              } else {
-                _answerNumber = 'Done';
-              }
-            }
-          });
-        },
-        child: Card(
-          color: Theme.of(context).cardColor,
-          child: Container(
-            padding: EdgeInsets.all(8),
-            child: Center(
-              child: Text(_buttonValue,
-                style: _buttonType == 'num' ? Theme.of(context).accentTextTheme.headline4 : TextStyle(fontFamily: 'MaterialIcons', fontSize: 46,),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-  @override
-  Widget build(BuildContext context) {
-    if (_currentLevel < 0) {
-      _currentLevel = startingPoint;
-      _newLevel();
-    }
-    return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(16),
-          child: Expanded(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Card(
-                    child: Container(
-                      padding: EdgeInsets.all(8),
-                      child: Center(
-                        child: Text(_answerNumber, style: Theme.of(context).textTheme.headline3,),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16,),
-                Container(
-                  height: 80,
-                  child: Expanded(
-                    child: Card(
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        child: Center(
-                          child: Text(_answerBoxNumber, style: Theme.of(context).textTheme.headline4,),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16,),
-                Container(
-                  height: 300,
-                  child: Expanded(
-                    child: Card(
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        child: Center(
-                          child: Table(
-                            children: [
-                              TableRow(children: [
-                                _keypadButton('1', 'num', '1'),
-                                _keypadButton('2', 'num', '2'),
-                                _keypadButton('3', 'num', '3'),
-                              ]),
-                              TableRow(children: [
-                                _keypadButton('4', 'num', '4'),
-                                _keypadButton('5', 'num', '5'),
-                                _keypadButton('6', 'num', '6'),
-                              ]),
-                              TableRow(children: [
-                                _keypadButton('7', 'num', '7'),
-                                _keypadButton('8', 'num', '8'),
-                                _keypadButton('9', 'num', '9'),
-                              ]),
-                              TableRow(children: [
-                                _keypadButton('restart', 'special', 'delete'),
-                                _keypadButton('0', 'num', '0'),
-                                _keypadButton('backspace', 'special', 'backspace'),
-                              ]),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-*/
-
-class ReactToKeypad {
+class StringUpdateStream {
   final _controller = StreamController<String>.broadcast();
   Stream<String> get stream => _controller.stream;
   void sendData(String _data) {
@@ -161,10 +12,11 @@ class ReactToKeypad {
   }
 }
 
-ReactToKeypad _reactionStream = new ReactToKeypad();
-ReactToKeypad _secondaryReactionStream = new ReactToKeypad();
-ReactToKeypad _timerUpdateStream = new ReactToKeypad();
-ReactToKeypad _scoreUpdateStream = new ReactToKeypad();
+StringUpdateStream _reactionStream = new StringUpdateStream();
+StringUpdateStream _secondaryReactionStream = new StringUpdateStream();
+StringUpdateStream _timerUpdateStream = new StringUpdateStream();
+StringUpdateStream _scoreUpdateStream = new StringUpdateStream();
+StringUpdateStream _endGameStream = new StringUpdateStream();
 var _extBuildContext;
 
 void _closeStreams() {
@@ -172,6 +24,15 @@ void _closeStreams() {
   _secondaryReactionStream.dispose();
   _timerUpdateStream.dispose();
   _scoreUpdateStream.dispose();
+  _endGameStream.dispose();
+}
+
+void _openStreams() {
+  _reactionStream = new StringUpdateStream();
+  _secondaryReactionStream = new StringUpdateStream();
+  _timerUpdateStream = new StringUpdateStream();
+  _scoreUpdateStream = new StringUpdateStream();
+  _endGameStream = new StringUpdateStream();
 }
 
 class NumberTypeSpeedGameScreen extends StatelessWidget {
@@ -179,6 +40,8 @@ class NumberTypeSpeedGameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _extBuildContext = context;
+    _closeStreams();
+    _openStreams();
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -280,6 +143,8 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
     return _level * 101 + 50;
   }
   void _newLevel() {
+    _answerNumber = '';
+    _secondaryReactionStream.sendData('update');
     _answerBoxNumber = '';
     _currentLevel++;
     _answerActualNumber = _generateNumberForLevel(_currentLevel);
@@ -288,6 +153,9 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
   }
   int _getPointPerLevel(int _level, int _number) {
     return _level;
+  }
+  int _getFinalScore(int _currentScore, double _timeLeft) {
+    return _currentScore * 100 + _timeLeft.round();
   }
   void _onStreamUpdate(String _value) {
     if (_value[0] == '-') {
@@ -301,7 +169,7 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
         _currentLevel = 0;
         _startGame();
       }
-    } else {
+    } else if (_answerBoxNumber.length < 16) {
       _answerBoxNumber += _value;
     }
     if (_answerNumber == _answerBoxNumber) {
@@ -346,12 +214,18 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
     _finished = true;
     _answerNumber = 'Done';
     _secondaryReactionStream.sendData('update');
+    _answerBoxNumber = 'Final score: ' + _getFinalScore(_score, _counter).toString();
+    _reactionStream.sendData('-delete');
     _timer.cancel();
+    _timerUpdateStream.sendData('update');
+    _endGameStream.sendData('update');
+    //Navigator.pop(context);
     //_closeStreams();
     /*Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PostGameScreen(playerScore: _score,)),
     );*/
+    _reactionStream.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -413,8 +287,11 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
                       stream: _reactionStream.stream,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
+                          //_answerBoxNumber = '';
                         } else if (snapshot.connectionState == ConnectionState.done) {
+                          //_answerBoxNumber = '';
                         } else if (snapshot.hasError) {
+                          _answerBoxNumber = 'Error encountered';
                         } else {
                           String _value = snapshot.data.toString();
                           //_onStreamUpdate(_value);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:n_euro_n/module/moduleInterface.dart';
 
 class HomeScaffold extends StatefulWidget {
@@ -36,7 +37,7 @@ class _HomeScaffoldState extends State<HomeScaffold> {
       body: SafeArea(
         child: Container(
           child: _tabs.elementAt(_selectedTab),
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
         ),
       ),
       floatingActionButton: FloatingActionButton(

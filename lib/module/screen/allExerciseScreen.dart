@@ -9,13 +9,16 @@ class AllExerciseScreen extends StatelessWidget {
     _items = getExerciseCardList();
     return Container(
       child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-          ),
-          itemCount: _items.length,
-          itemBuilder: (BuildContext context, int _index) {
-            return _items.elementAt(_index);
-          }
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 16,
+          crossAxisSpacing: 16,
+          childAspectRatio: 1,
+        ),
+        itemCount: _items.length,
+        itemBuilder: (BuildContext context, int _index) {
+          return _items.elementAt(_index);
+        },
       ),
     );
   }
