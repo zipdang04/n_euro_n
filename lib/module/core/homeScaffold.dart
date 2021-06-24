@@ -30,7 +30,7 @@ class _HomeScaffoldState extends State<HomeScaffold> {
       Placeholder(color: Colors.amber,),
       getHomeScreen(),
       Placeholder(color: Colors.deepOrange,),
-      Placeholder(color: Colors.deepPurple,)
+      getSettingScreen(),
     ];
     return Scaffold(
       //appBar: AppBar(title: Text('Demo'),),
@@ -48,9 +48,9 @@ class _HomeScaffoldState extends State<HomeScaffold> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.insert_drive_file_rounded), label: 'Indigo'),
-          BottomNavigationBarItem(icon: Icon(Icons.insert_drive_file_rounded), label: 'Amber'),
-          BottomNavigationBarItem(icon: Container(/*child: Icon(Icons.insert_drive_file_rounded)*/), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.list_alt_rounded), label: 'All Exercises'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Personal Progress'),
+          BottomNavigationBarItem(icon: Container(/*child: Icon(Icons.insert_drive_file_rounded)*/), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.insert_drive_file_rounded), label: 'Deep Orange'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
