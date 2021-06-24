@@ -1,12 +1,8 @@
 import 'dart:math';
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:n_euro_n/module/screen/postgameScreen.dart';
 
-// two plus two is four, minus one it's three quick math :))
-
-class ReactToKeypad {
+class StringUpdateStream {
   final _controller = StreamController<String>.broadcast();
   Stream<String> get stream => _controller.stream;
   void sendData(String _data) {
@@ -18,10 +14,11 @@ class ReactToKeypad {
   }
 }
 
-ReactToKeypad _reactionStream = new ReactToKeypad();
-ReactToKeypad _secondaryReactionStream = new ReactToKeypad();
-ReactToKeypad _timerUpdateStream = new ReactToKeypad();
-ReactToKeypad _scoreUpdateStream = new ReactToKeypad();
+StringUpdateStream _reactionStream = new StringUpdateStream();
+StringUpdateStream _secondaryReactionStream = new StringUpdateStream();
+StringUpdateStream _timerUpdateStream = new StringUpdateStream();
+StringUpdateStream _scoreUpdateStream = new StringUpdateStream();
+StringUpdateStream _endGameStream = new StringUpdateStream();
 var _extBuildContext;
 
 void _closeStreams() {
@@ -29,6 +26,15 @@ void _closeStreams() {
   _secondaryReactionStream.dispose();
   _timerUpdateStream.dispose();
   _scoreUpdateStream.dispose();
+  _endGameStream.dispose();
+}
+
+void _openStreams() {
+  _reactionStream = new StringUpdateStream();
+  _secondaryReactionStream = new StringUpdateStream();
+  _timerUpdateStream = new StringUpdateStream();
+  _scoreUpdateStream = new StringUpdateStream();
+  _endGameStream = new StringUpdateStream();
 }
 
 class QuickMathGameScreen extends StatelessWidget {
@@ -36,6 +42,8 @@ class QuickMathGameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _extBuildContext = context;
+    _closeStreams();
+    _openStreams();
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -138,16 +146,14 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
   String _question = 'Press Start';
   String _answerNumber = '';
   int _answerActualNumber = 0;
-
   String _answerBoxNumber = '';
-  int _currentLevel = 0;
 
+  int _currentLevel = 0;
   int maxLevel = 100;
   int _score = 0;
 
   static const double _time = 90;
   double _counter = _time;
-
   Timer _timer = Timer.periodic(
       Duration(
         days: 1,
@@ -179,6 +185,8 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
   }
 
   void _newLevel() {
+    _answerNumber = '';
+    _secondaryReactionStream.sendData('update');
     _answerBoxNumber = '';
     _currentLevel++;
     _generateNumberForLevel(_currentLevel);
@@ -187,6 +195,10 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
 
   int _getPointPerLevel(int _level, int _number) {
     return _level;
+  }
+
+  int _getFinalScore(int _currentScore, double _timeLeft) {
+    return _currentScore * 100 + _timeLeft.round();
   }
 
   void _onStreamUpdate(String _value) {
@@ -202,7 +214,7 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
         _currentLevel = 0;
         _startGame();
       }
-    } else {
+    } else if (_answerBoxNumber.length < 16) {
       _answerBoxNumber += _value;
     }
     if (_answerNumber == _answerBoxNumber) {
@@ -219,7 +231,7 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
   }
 
   void _startGame() {
-    _counter = _time + 1;
+    _counter = _time + 0.5;
     _score = 0;
     _newLevel();
     if (_timer != null) {
@@ -249,12 +261,19 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
     _finished = true;
     _question = 'Done';
     _secondaryReactionStream.sendData('update');
+    _answerBoxNumber =
+        'Final score: ' + _getFinalScore(_score, _counter).toString();
+    _reactionStream.sendData('-delete');
     _timer.cancel();
+    _timerUpdateStream.sendData('update');
+    _endGameStream.sendData('update');
+    //Navigator.pop(context);
     //_closeStreams();
     /*Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PostGameScreen(playerScore: _score,)),
     );*/
+    _reactionStream.dispose();
   }
 
   @override
@@ -328,9 +347,12 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
+                          //_answerBoxNumber = '';
                         } else if (snapshot.connectionState ==
                             ConnectionState.done) {
+                          //_answerBoxNumber = '';
                         } else if (snapshot.hasError) {
+                          _answerBoxNumber = 'Error encountered';
                         } else {
                           String _value = snapshot.data.toString();
                           //_onStreamUpdate(_value);
