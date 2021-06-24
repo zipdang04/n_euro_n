@@ -65,6 +65,13 @@ List<Exercise> getExerciseList() {
       description: "Calculate as possible"
     ),
   );
+  _items.add(
+    Exercise(
+      name: 'Chemical Equation',
+      exerciseDestination: getChemicalEquation(),
+      description: "Make you feel confident with your chemistry skill!"
+    )
+  );
   return _items;
 }
 
