@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:n_euro_n/module/core/exerciseHandler.dart';
 import 'package:n_euro_n/module/core/personalProgressHandler.dart';
 
 class PersonalProgressScreen extends StatelessWidget {
@@ -20,24 +21,18 @@ class PersonalProgressScreen extends StatelessWidget {
                 builder: (context, _gameHistoryBox) {
                   final _temp = _gameHistoryBox.get('gameHistory');
                   List<Widget> _items = [
-                    Container(
-                      height: 200,
-                      child: Expanded(
-                        child: Card(
-                          child: Container(
-                            padding: EdgeInsets.all(16),
-                            //child: Text(_temp.toString()),
-                            child: FutureBuilder(
-                              future: _getOverallScoreColumn(context),
-                              builder: (context, AsyncSnapshot<Widget>snapshot) {
-                                if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                                  return snapshot.data ?? Container();
-                                } else {
-                                  return Container();
-                                }
-                              },
-                            ),
-                          ),
+                    Card(
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        child: FutureBuilder(
+                          future: _getOverallScoreColumn(context),
+                          builder: (context, AsyncSnapshot<Widget>snapshot) {
+                            if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                              return snapshot.data ?? Container();
+                            } else {
+                              return Container(height: getExerciseList().length * 50,);
+                            }
+                          },
                         ),
                       ),
                     ),
@@ -73,13 +68,21 @@ Future<Widget> _getOverallScoreColumn(BuildContext context) async {
   final _value = await getAllOverallScore();
   _value.forEach((key, value) {
     _items.add(Container(
-      padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
-      child: Text(key + ' Game - Overall score: ' + value.toString(),
+      padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
+      child: Text(key + ' Game',
         style: Theme.of(context).textTheme.headline6,
       ),
     ));
+    _items.add(Container(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+      child: Text('Overall score: ' + value.toString(),
+        style: Theme.of(context).textTheme.headline6,
+      ),
+    ));
+    _items.add(Container());
   });
   return Column(
     children: _items,
+    crossAxisAlignment: CrossAxisAlignment.start,
   );
 }

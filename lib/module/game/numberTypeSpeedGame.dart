@@ -324,4 +324,22 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
       ),
     );
   }
+  @override
+  void dispose() {
+    if (_finished) {
+      return;
+    }
+    _finished = true;
+    _answerNumber = 'Done';
+    _secondaryReactionStream.sendData('update');
+    _answerBoxNumber = '';
+    _reactionStream.sendData('-delete');
+    _timer.cancel();
+    _timerUpdateStream.sendData('update');
+    _endGameStream.sendData('update');
+    //_closeStreams();
+    _reactionStream.dispose();
+    print('Game closed before finished');
+    super.dispose();
+  }
 }
