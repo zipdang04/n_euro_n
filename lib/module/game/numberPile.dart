@@ -37,8 +37,8 @@ void _openStreams() {
   _endGameStream = new StringUpdateStream();
 }
 
-class QuickMathGameScreen extends StatelessWidget {
-  const QuickMathGameScreen({Key? key}) : super(key: key);
+class NumberPileGameScreen extends StatelessWidget {
+  const NumberPileGameScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     _extBuildContext = context;
@@ -51,8 +51,8 @@ class QuickMathGameScreen extends StatelessWidget {
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
-              QuickMathGameDisplay(),
-              QuickMathGameKeypad(context: context),
+              NumberPileGameDisplay(),
+              NumberPileGameKeypad(context: context),
             ],
           ),
         ),
@@ -61,8 +61,8 @@ class QuickMathGameScreen extends StatelessWidget {
   }
 }
 
-class QuickMathGameKeypad extends StatelessWidget {
-  QuickMathGameKeypad({Key? key, required BuildContext context}) : super(key: key);
+class NumberPileGameKeypad extends StatelessWidget {
+  NumberPileGameKeypad({Key? key, required BuildContext context}) : super(key: key);
   BuildContext context = _extBuildContext;
   Widget _keypadButton(String _buttonID, String _buttonType, String _buttonValue) {
     return Expanded(
@@ -125,13 +125,13 @@ class QuickMathGameKeypad extends StatelessWidget {
   }
 }
 
-class QuickMathGameDisplay extends StatefulWidget {
-  const QuickMathGameDisplay({Key? key}) : super(key: key);
+class NumberPileGameDisplay extends StatefulWidget {
+  const NumberPileGameDisplay({Key? key}) : super(key: key);
   @override
-  _QuickMathGameDisplayState createState() => _QuickMathGameDisplayState();
+  _NumberPileGameDisplayState createState() => _NumberPileGameDisplayState();
 }
 
-class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
+class _NumberPileGameDisplayState extends State<NumberPileGameDisplay> {
   Random random = Random(DateTime.now().millisecondsSinceEpoch);
   
   String _question = 'Press Start';
@@ -148,27 +148,31 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
   Timer _timer = Timer.periodic(Duration(days: 1,), (timer) => {});
   bool _finished = false;
 
-  int _limL = 1, _limR = 9;
-  int _getRandomNumber() {
+  int chain = 5;
+  int curChain = 5;
+
+  int curTimes = 0, curLen = 0;
+  int _getRandomNumber(int _limL, int _limR) {
     int len = _limR - _limL + 1;
     return _limL + random.nextInt(len);
   }
 
-
   void _generateNumberForLevel(int _level) {
-    int num1 = _getRandomNumber();
-    int num2 = _getRandomNumber();
-    if (num1 > num2) {
-      int tmp = num1;
-      num1 = num2;
-      num2 = tmp;
+    if (chain == curChain) {
+      _question = 'Start pile: '; 
+      _answerActualNumber = 0;
+    } else {
+      _question = '';
     }
-    _answerActualNumber = num1 + num2;
+    int num = _getRandomNumber(0, _answerActualNumber * 2 + 5);
+    _answerActualNumber += num;
     _answerNumber = _answerActualNumber.toString();
-    _question = num1.toString() + ' + ' + num2.toString();
-    if (_level % 5 == 0) {
-      _limL *= 10;
-      _limR = _limR * 10 + 9;
+
+    _question += num.toString();
+
+    curChain--;
+    if (curChain == 0){
+      chain++; curChain = chain;
     }
   }
 
@@ -243,7 +247,7 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
     }
     _finished = true;
     int _finalScore = _getFinalScore(_score);
-    addGameToHistory('Quick Math', _finalScore); // USE THE SAME NAME FROM THE ExerciseHandler.dart FILE
+    addGameToHistory('Number Pile', _finalScore); // USE THE SAME NAME FROM THE ExerciseHandler.dart FILE
     _answerNumber = 'Done';
     _secondaryReactionStream.sendData('update');
     _answerBoxNumber = 'Final score: ' + _finalScore.toString();

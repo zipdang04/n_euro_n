@@ -82,6 +82,13 @@ List<Exercise> getExerciseList() {
       description: 'Type the number corresponding to the letter on the screen. Will hurts your memory',
     ),
   );
+  _items.add(
+      Exercise(
+          name: 'Number Pile',
+          exerciseDestination: getNumberPile(),
+          description: 'Accumulate the number showing on the screen. Also hurts your memory a whole lot!'
+      )
+  );
   return _items;
 }
 

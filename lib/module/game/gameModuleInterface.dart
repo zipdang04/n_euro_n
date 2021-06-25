@@ -3,7 +3,7 @@ import 'numberTypeSpeedGame.dart';
 import 'quickMathGame.dart';
 import 'ChemicalEquationGame.dart';
 import 'numberSequenceMemoryGame.dart';
-
+import 'numberPile.dart';
 Widget getGameNumberTypeSpeed() {
   return NumberTypeSpeedGameScreen();
 }
@@ -18,4 +18,8 @@ Widget getChemicalEquation() {
 
 Widget getGameNumberSequenceMemory() {
   return NumberSequenceMemoryGameScreen();
+}
+
+Widget getNumberPile(){
+  return NumberPileGameScreen();
 }
