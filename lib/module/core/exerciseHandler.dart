@@ -72,6 +72,13 @@ List<Exercise> getExerciseList() {
       description: "Make you feel confident with your chemistry skill!"
     )
   );
+  _items.add(
+      Exercise(
+          name: 'Number Sequence Memory',
+          exerciseDestination: getGameNumberSequenceMemory(),
+          description: 'Type the number corresponding to the letter on the screen. Will hurts your memory'
+      )
+  );
   return _items;
 }
 
