@@ -62,7 +62,7 @@ List<Exercise> getExerciseList() {
     Exercise(
       name: 'Quick Math', //two plus two is four, minus one it's three quick math!
       exerciseDestination: getQuickMath(),
-      description: "Calculate as possible"
+      description: "Calculate as fast as possible"
     ),
   );
   _items.add(
@@ -71,6 +71,13 @@ List<Exercise> getExerciseList() {
       exerciseDestination: getChemicalEquation(),
       description: "Make you feel confident with your chemistry skill!"
     )
+  );
+  _items.add(
+      Exercise(
+          name: 'Number Sequence Memory',
+          exerciseDestination: getGameNumberSequenceMemory(),
+          description: 'Type the number corresponding to the letter on the screen. Will hurts your memory'
+      )
   );
   return _items;
 }

@@ -37,8 +37,8 @@ void _openStreams() {
   _endGameStream = new StringUpdateStream();
 }
 
-class NumberTypeSpeedGameScreen extends StatelessWidget {
-  const NumberTypeSpeedGameScreen({Key? key}) : super(key: key);
+class NumberSequenceMemoryGameScreen extends StatelessWidget {
+  const NumberSequenceMemoryGameScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     _extBuildContext = context;
@@ -51,8 +51,8 @@ class NumberTypeSpeedGameScreen extends StatelessWidget {
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
-              NumberTypeSpeedGameDisplay(),
-              NumberTypeSpeedGameKeypad(context: context),
+              NumberSequenceMemoryGameDisplay(),
+              NumberSequenceMemoryGameKeypad(context: context),
             ],
           ),
         ),
@@ -61,8 +61,8 @@ class NumberTypeSpeedGameScreen extends StatelessWidget {
   }
 }
 
-class NumberTypeSpeedGameKeypad extends StatelessWidget {
-  NumberTypeSpeedGameKeypad({Key? key, required BuildContext context}) : super(key: key);
+class NumberSequenceMemoryGameKeypad extends StatelessWidget {
+  NumberSequenceMemoryGameKeypad({Key? key, required BuildContext context}) : super(key: key);
   BuildContext context = _extBuildContext;
   Widget _keypadButton(String _buttonID, String _buttonType, String _buttonValue) {
     return Expanded(
@@ -125,42 +125,57 @@ class NumberTypeSpeedGameKeypad extends StatelessWidget {
   }
 }
 
-class NumberTypeSpeedGameDisplay extends StatefulWidget {
-  const NumberTypeSpeedGameDisplay({Key? key}) : super(key: key);
+class NumberSequenceMemoryGameDisplay extends StatefulWidget {
+  const NumberSequenceMemoryGameDisplay({Key? key}) : super(key: key);
   @override
-  _NumberTypeSpeedGameDisplayState createState() => _NumberTypeSpeedGameDisplayState();
+  _NumberSequenceMemoryGameDisplayState createState() => _NumberSequenceMemoryGameDisplayState();
 }
 
-class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay> {
+class _NumberSequenceMemoryGameDisplayState extends State<NumberSequenceMemoryGameDisplay> {
   String _answerNumber = 'Press Start';
   int _answerActualNumber = 0;
   String _answerBoxNumber = '';
+  String _requiredAnswer = '';
   int _currentLevel = 0;
-  int maxLevel = 200;
+  int _currentSubLevel = 0;
+  int maxLevel = 26;
   int _score = 0;
   double _counter = 90;
   Timer _timer = Timer.periodic(Duration(days: 1,), (timer) => {});
   bool _finished = false;
+  List<int> _numberGenerated = [];
+  int _timeLeftFromLastAnswer = 0;
   int _generateNumberForLevel(int _level) {
     //print(_level);
     Random _random = Random();
-    int _randomNumber = _random.nextInt(100 + _level * 200) + _level * 150 + _random.nextInt(10) + _random.nextInt(100);
+    int _randomNumber = _random.nextInt(100 + _level * 20) + _level * 10 + _random.nextInt(10);
     return _randomNumber;
   }
   void _newLevel() {
     _answerNumber = '';
     _secondaryReactionStream.sendData('update');
     _answerBoxNumber = '';
-    _currentLevel++;
-    _answerActualNumber = _generateNumberForLevel(_currentLevel);
-    _answerNumber = _answerActualNumber.toString();
+    //_currentLevel++;
+    if (_currentLevel == _currentSubLevel) {
+      _currentLevel++;
+      _currentSubLevel = 0;
+      _numberGenerated.add(_generateNumberForLevel(_currentLevel));
+      _answerNumber = String.fromCharCode(_currentLevel + 96) + ' = ' + _numberGenerated.elementAt(_currentLevel - 1).toString();
+      _answerActualNumber = _currentLevel - 1;
+    } else {
+      Random _randomizer = Random();
+      _answerActualNumber = _randomizer.nextInt(_currentLevel);
+      _answerNumber = String.fromCharCode(_answerActualNumber + 97) + ' = ?';
+    }
+    _currentSubLevel++;
+    //_answerActualNumber = _generateNumberForLevel(_currentLevel);
     _secondaryReactionStream.sendData('update');
   }
-  int _getPointPerLevel(int _level, int _number) {
-    return _level;
+  int _getPointPerLevel(int _level, int _subLevel) {
+    return _level * _level + _subLevel;
   }
-  int _getFinalScore(int _currentScore, double _timeLeft) {
-    return _currentScore * 1 + _timeLeft.round();
+  int _getFinalScore(int _currentScore, double _timeLeft, int _freeTime) {
+    return _currentScore * 1 + pow(_timeLeft, 2).round() + (_freeTime * (_currentLevel * _currentLevel + _currentSubLevel) / 90).round();
   }
   void _onStreamUpdate(String _value) {
     if (_value[0] == '-') {
@@ -177,8 +192,9 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
     } else if (_answerBoxNumber.length < 16) {
       _answerBoxNumber += _value;
     }
-    if (_answerNumber == _answerBoxNumber) {
-      _score += _getPointPerLevel(_currentLevel, _answerActualNumber);
+    if (_answerBoxNumber == _numberGenerated.elementAt(_answerActualNumber).toString()) {
+      _score += _getPointPerLevel(_currentLevel, _currentSubLevel);
+      _timeLeftFromLastAnswer = _counter.floor();
       if (_currentLevel < maxLevel) {
         _newLevel();
       } else {
@@ -193,6 +209,8 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
     _counter = 91;
     _score = 0;
     _scoreUpdateStream.sendData('update');
+    _currentLevel = 0;
+    _currentSubLevel = 0;
     _newLevel();
     if (_timer != null) {
       _timer.cancel();
@@ -218,8 +236,8 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
       return;
     }
     _finished = true;
-    int _finalScore = _getFinalScore(_score, _counter);
-    addGameToHistory('Number Type Speed', _finalScore); // USE THE SAME NAME FROM THE ExerciseHandler.dart FILE
+    int _finalScore = _getFinalScore(_score, _counter, _timeLeftFromLastAnswer);
+    addGameToHistory('Number Sequence Memory', _finalScore); // USE THE SAME NAME FROM THE ExerciseHandler.dart FILE
     _answerNumber = 'Done';
     _secondaryReactionStream.sendData('update');
     _answerBoxNumber = 'Final score: ' + _finalScore.toString();
@@ -253,10 +271,10 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
                     Center(
                       //child: Text(_answerNumber, style: Theme.of(context).textTheme.headline3,),
                       child: StreamBuilder<String>(
-                        stream: _secondaryReactionStream.stream,
-                        builder: (context, snapshot) {
-                          return Text(_answerNumber, style: Theme.of(context).textTheme.headline3,);
-                        }
+                          stream: _secondaryReactionStream.stream,
+                          builder: (context, snapshot) {
+                            return Text(_answerNumber, style: Theme.of(context).textTheme.headline3,);
+                          }
                       ),
                     ),
                     Container(
