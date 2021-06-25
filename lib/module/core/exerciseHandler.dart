@@ -40,8 +40,11 @@ class ExerciseCard extends StatelessWidget {
             );
           },
           child: Container(
-            child: Text(exerciseData.getName()),
-            padding: EdgeInsets.all(8),
+            alignment: Alignment.bottomLeft,
+            child: Text(exerciseData.getName(),
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            padding: EdgeInsets.all(20),
           ),
         ),
       ),
@@ -55,29 +58,29 @@ List<Exercise> getExerciseList() {
     Exercise(
       name: 'Number Type Speed',
       exerciseDestination: getGameNumberTypeSpeed(),
-      description: "Type as fast as possible"
-    )
+      description: "Type as fast as possible",
+    ),
   );
   _items.add(
     Exercise(
       name: 'Quick Math', //two plus two is four, minus one it's three quick math!
       exerciseDestination: getQuickMath(),
-      description: "Calculate as fast as possible"
+      description: "Calculate as fast as possible",
     ),
   );
   _items.add(
     Exercise(
       name: 'Chemical Equation',
       exerciseDestination: getChemicalEquation(),
-      description: "Make you feel confident with your chemistry skill!"
-    )
+      description: "Make you feel confident with your chemistry skill!",
+    ),
   );
   _items.add(
-      Exercise(
-          name: 'Number Sequence Memory',
-          exerciseDestination: getGameNumberSequenceMemory(),
-          description: 'Type the number corresponding to the letter on the screen. Will hurts your memory'
-      )
+    Exercise(
+      name: 'Number Sequence Memory',
+      exerciseDestination: getGameNumberSequenceMemory(),
+      description: 'Type the number corresponding to the letter on the screen. Will hurts your memory',
+    ),
   );
   _items.add(
       Exercise(

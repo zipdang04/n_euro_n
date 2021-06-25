@@ -7,6 +7,7 @@ import 'screen/pregameScreen.dart';
 import 'core/exerciseHandler.dart';
 import 'screen/settingScreen.dart';
 import 'screen/personalProgressScreen.dart';
+import 'screen/tournamentScreen.dart';
 
 Widget getHomeScaffold() {
   return HomeScaffold();
@@ -34,4 +35,8 @@ Widget getSettingScreen() {
 
 Widget getPersonalProgressScreen() {
   return PersonalProgressScreen();
+}
+
+Widget getTournamentScreen() {
+  return TournamentScreen();
 }

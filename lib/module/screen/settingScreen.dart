@@ -7,13 +7,17 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      padding: EdgeInsets.all(16),
       children: [
         Container(
           height: 100,
           child: Expanded(
-            child: RaisedButton(
+            child: ElevatedButton(
               onPressed: () async => await clearBoxes(),
-              child: Text('Reset Database'),
+              child: Text('Reset Database', style: Theme.of(context).textTheme.headline4,),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).errorColor),
+              ),
             ),
           ),
         )

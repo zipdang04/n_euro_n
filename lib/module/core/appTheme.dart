@@ -9,6 +9,7 @@ ThemeData pickAppTheme(BuildContext context) {
     shadowColor: Color(0xFF0D1930),
     cardColor: Color(0xFFB3C2F2),
     highlightColor: Colors.amber,
+    errorColor: Colors.redAccent,
     cardTheme: CardTheme(
       color: Color(0xFF466895),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
