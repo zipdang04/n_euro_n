@@ -13,10 +13,10 @@ class _HomeScaffoldState extends State<HomeScaffold> {
   int _selectedTab = 2, _previousTab = 2;
   List<Widget> _tabs = <Widget>[
     getAllExerciseScreen(),
-    Placeholder(color: Colors.amber,),
+    getPersonalProgressScreen(),
     getHomeScreen(),
-    Placeholder(color: Colors.deepOrange,),
-    Placeholder(color: Colors.deepPurple,)
+    getTournamentScreen(),
+    getSettingScreen(),
   ];
   void _onItemTapped(int _index) {
     if (_selectedTab == _index) {
@@ -33,7 +33,7 @@ class _HomeScaffoldState extends State<HomeScaffold> {
       getAllExerciseScreen(),
       getPersonalProgressScreen(),
       getHomeScreen(),
-      Placeholder(color: Colors.deepOrange,),
+      getTournamentScreen(),
       getSettingScreen(),
     ];
     return Scaffold(
@@ -53,11 +53,15 @@ class _HomeScaffoldState extends State<HomeScaffold> {
               } else {
                 _transitionAlignment = _selectedTab > _previousTab ? _fromRight : _fromLeft;
               }
-              return ScaleTransition(child: _child, scale: _animation, alignment: _transitionAlignment,);
+              return ScaleTransition(
+                child: _child,
+                scale: _animation,
+                alignment: _transitionAlignment,
+              );
             }
             ,
           ),
-          padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+          //padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -71,7 +75,7 @@ class _HomeScaffoldState extends State<HomeScaffold> {
           BottomNavigationBarItem(icon: Icon(Icons.list_alt_rounded), label: 'All Exercises'),
           BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Personal Progress'),
           BottomNavigationBarItem(icon: Container(/*child: Icon(Icons.insert_drive_file_rounded)*/), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.insert_drive_file_rounded), label: 'Deep Orange'),
+          BottomNavigationBarItem(icon: Icon(Icons.people_rounded), label: 'Tournaments'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
         currentIndex: _selectedTab,

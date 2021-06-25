@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:n_euro_n/module/core/exerciseHandler.dart';
+import 'dart:math';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -10,10 +12,11 @@ class HomeScreen extends StatelessWidget {
       WelcomeBox(),
       ProgressBox(),
     ];
-    _items.addAll(HomeScreenDashboard().getDashboardTasks2InARow());
+    _items.addAll(HomeScreenDashboard().getDashboardTasks2InARow(context));
     _items.add(Container());
     return Container(
       child: ListView.separated(
+        padding: EdgeInsets.all(16),
         itemCount: _items.length,
         itemBuilder: (BuildContext context, int _index) {
           return _items.elementAt(_index);
@@ -121,18 +124,86 @@ class ProgressBox extends StatelessWidget {
 }
 
 class HomeScreenDashboard {
-  List<Widget> getDashboardTasks2InARow() {
+  List<Widget> getDashboardTasks2InARow(BuildContext context) {
+    List<Exercise> _exerciseList = getExerciseList()..shuffle();
+    List<String> _cardText = [
+      'New exercises introduced in the 1.0.0 update',
+      'Topic: Can you beat the developers?',
+      'Recommended exercise for you'
+    ];
+    List<Widget> _cardNewPage = [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(_cardText.elementAt(0), style: Theme.of(context).textTheme.headline4,),
+          SizedBox(height: 16,),
+          Text('We are very happy to introduce you our new exercises.',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Text('Try them out in the All Exercise Screen - the first tab in the tab bar',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ],
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(_cardText.elementAt(1), style: Theme.of(context).textTheme.headline4,),
+          SizedBox(height: 16,),
+          Text('Try to beat our score at the exercises',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Text('malego - Number Type Speed Game - 1200',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ],
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(_cardText.elementAt(2), style: Theme.of(context).textTheme.headline4,),
+          SizedBox(height: 16,),
+          Container(
+            height: 200,
+            child: ExerciseCard(exerciseData:  _exerciseList.elementAt(0),),
+          ),
+          SizedBox(height: 16,),
+          Container(
+            height: 200,
+            child: ExerciseCard(exerciseData:  _exerciseList.elementAt(1),),
+          ),
+        ],
+      ),
+    ];
     List<Widget> _itemsPending = [];
-    for (int _i = 0; _i < 3; _i++){
+    for (int _i = 0; _i < _cardText.length; _i++){
       _itemsPending.add(
         Expanded(
           child: Card(
-            child: Container(
-              padding: EdgeInsets.all(16),
-              child: SizedBox(
-                height: 128,
-                child: Text('Box number #' + (_i + 1).toString()),
+            child: GestureDetector(
+              child: Container(
+                padding: EdgeInsets.all(16),
+                child: SizedBox(
+                  height: 80,
+                  child: Text(_cardText.elementAt(_i),
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                ),
               ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Scaffold(
+                    appBar: AppBar(),
+                    body: SafeArea(
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        child: _cardNewPage.elementAt(_i),
+                      ),
+                    ),
+                  )),
+                );
+              },
             ),
           ),
         ),

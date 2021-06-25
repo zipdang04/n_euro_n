@@ -40,8 +40,10 @@ class PersonalProgressScreen extends StatelessWidget {
                   for (int _i = _temp.length - 1; _i >= 0; _i--) {
                     _items.add(getListTileForPersonalProgressScreen(context, _temp.elementAt(_i)));
                   }
+                  _items.add(SizedBox(height: 16,));
                   _gameHistoryBox.close();
                   return ListView.separated(
+                    padding: EdgeInsets.all(16),
                     itemBuilder: (context, _index) => _items.elementAt(_index),
                     separatorBuilder: (context, _index) => SizedBox(height: 4,),
                     itemCount: _items.length,
