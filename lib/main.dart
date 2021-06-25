@@ -9,8 +9,10 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final appDocumentDirectory = await path_provider.getApplicationDocumentsDirectory();
-  Hive.init(appDocumentDirectory.path);
+  if (!kIsWeb) {
+    final appDocumentDirectory = await path_provider.getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDirectory.path);
+  }
   Hive.registerAdapter<ExerciseInstance>(ExerciseInstanceAdapter());
   await initBoxes();
   LicenseRegistry.addLicense(() async* {
