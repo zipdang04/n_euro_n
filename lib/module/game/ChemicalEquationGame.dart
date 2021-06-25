@@ -37,8 +37,127 @@ void _openStreams() {
   _endGameStream = new StringUpdateStream();
 }
 
-class QuickMathGameScreen extends StatelessWidget {
-  const QuickMathGameScreen({Key? key}) : super(key: key);
+class _equationChemical {
+  String _questionChemical = '';
+  int _answerChemical = 0;
+
+  _equationChemical(this._questionChemical, this._answerChemical);
+
+  String getQuestionChemical() {
+    return _questionChemical;
+  }
+
+  int getAnswerChemical() {
+    return _answerChemical;
+  }
+}
+
+List<_equationChemical> _dataChemical = [
+  _equationChemical('1Ba + 2Na -> ?BaNaNa', 1),//1 2 1
+  _equationChemical('?Mg + 1O2 -> 2MgO', 2),
+  _equationChemical('2Mg + ?O2 -> 2MgO', 1),
+  _equationChemical('2Mg + 1O2 -> ?MgO', 2),
+  _equationChemical('?P + 5O2 -> 2P2O5', 4),
+  _equationChemical('4P + ?O2 -> 2P2O5', 5),
+  _equationChemical('4P + 5O2 -> ?P2O5', 2),
+  _equationChemical('?KClO3 -> 2KCl + 3O2', 2),
+  _equationChemical('2KClO3 -> ?KCl + 3O2', 2),
+  _equationChemical('2KClO3 -> 2KCl + ?O2', 3),
+  _equationChemical('?HCl + 2KMnO4 -> 2MnCl2 + 2KCl + 5Cl2 + 8H2O', 16),
+  _equationChemical('16HCl + ?KMnO4 -> 2MnCl2 + 2KCl + 5Cl2 + 8H2O', 2),
+  _equationChemical('16HCl + 2KMnO4 -> ?MnCl2 + 2KCl + 5Cl2 + 8H2O', 2),
+  _equationChemical('16HCl + 2KMnO4 -> 2MnCl2 + ?KCl + 5Cl2 + 8H2O', 2),
+  _equationChemical('16HCl + 2KMnO4 -> 2MnCl2 + 2KCl + ?Cl2 + 8H2O', 5),
+  _equationChemical('16HCl + 2KMnO4 -> 2MnCl2 + 2KCl + 5Cl2 + ?H2O', 8),
+  _equationChemical('?C12H22O11 + 1H2O -> 2C6H12O6', 1),
+  _equationChemical('1C12H22O11 + ?H2O -> 2C6H12O6', 1),
+  _equationChemical('1C12H22O11 + 1H2O -> ?C6H12O6', 2),
+  _equationChemical('?C12H22O11 + 12O2 -> 12CO2 + 11H2O', 1),
+  _equationChemical('1C12H22O11 + ?O2 -> 12CO2 + 11H2O', 12),
+  _equationChemical('1C12H22O11 + 12O2 -> ?CO2 + 11H2O', 12),
+  _equationChemical('1C12H22O11 + 12O2 -> 12CO2 + ?H2O', 11),
+  _equationChemical('?C6H5CHCH2 + 10KMnO4 -> 3C6H5COOK + 3K2CO3 + 1KOH + 10MnO2 + 4H2O', 3),// 3 10 3 3 1 10 4
+  _equationChemical('3C6H5CHCH2 + ?KMnO4 -> 3C6H5COOK + 3K2CO3 + 1KOH + 10MnO2 + 4H2O', 10),
+  _equationChemical('3C6H5CHCH2 + 10KMnO4 -> ?C6H5COOK + 3K2CO3 + 1KOH + 10MnO2 + 4H2O', 3),
+  _equationChemical('3C6H5CHCH2 + 10KMnO4 -> 3C6H5COOK + ?K2CO3 + 1KOH + 10MnO2 + 4H2O', 3),
+  _equationChemical('3C6H5CHCH2 + 10KMnO4 -> 3C6H5COOK + 3K2CO3 + ?KOH + 10MnO2 + 4H2O', 1),
+  _equationChemical('3C6H5CHCH2 + 10KMnO4 -> 3C6H5COOK + 3K2CO3 + 1KOH + ?MnO2 + 4H2O', 10),
+  _equationChemical('3C6H5CHCH2 + 10KMnO4 -> 3C6H5COOK + 3K2CO3 + 1KOH + 10MnO2 + ?H2O', 4),
+  _equationChemical('?C2H5OH -> 1C2H4 + 1H2O', 1),// 1 1 1
+  _equationChemical('1C2H5OH -> ?C2H4 + 1H2O', 1),
+  _equationChemical('1C2H5OH -> 1C2H4 + ?H2O', 1),
+  _equationChemical('?C2H5OH + 1CH3COOH <-> 1CH3COOC2H5 + 1H2O', 1),// 1 1 1 1
+  _equationChemical('1C2H5OH + ?CH3COOH <-> 1CH3COOC2H5 + 1H2O', 1),
+  _equationChemical('1C2H5OH + 1CH3COOH <-> ?CH3COOC2H5 + 1H2O', 1),
+  _equationChemical('1C2H5OH + 1CH3COOH <-> 1CH3COOC2H5 + ?H2O', 1),
+  _equationChemical('?C2H5OH + 2Na -> 2C2H5ONa + 1H2', 2),// 2 2 2 1
+  _equationChemical('2C2H5OH + ?Na -> 2C2H5ONa + 1H2', 2),
+  _equationChemical('2C2H5OH + 2Na -> ?C2H5ONa + 1H2', 2),
+  _equationChemical('2C2H5OH + 2Na -> 2C2H5ONa + ?H2', 1),
+  _equationChemical('?H2SO4 + 1KClO4 -> 1HClO4 + 1KHSO4', 1),// 1 1 1 1
+  _equationChemical('1H2SO4 + ?KClO4 -> 1HClO4 + 1KHSO4', 1),
+  _equationChemical('1H2SO4 + 1KClO4 -> ?HClO4 + 1KHSO4', 1),
+  _equationChemical('1H2SO4 + 1KClO4 -> 1HClO4 + ?KHSO4', 1),
+  _equationChemical('?KMnO4 + 3C2H4 + 4H2O -> 4C2H4(OH)2 + 2KOH + 2MnO2', 1),// 1 3 4 4 2 2
+  _equationChemical('1KMnO4 + ?C2H4 + 4H2O -> 4C2H4(OH)2 + 2KOH + 2MnO2', 3),
+  _equationChemical('1KMnO4 + 3C2H4 + ?H2O -> 4C2H4(OH)2 + 2KOH + 2MnO2', 4),
+  _equationChemical('1KMnO4 + 3C2H4 + 4H2O -> ?C2H4(OH)2 + 2KOH + 2MnO2', 4),
+  _equationChemical('1KMnO4 + 3C2H4 + 4H2O -> 4C2H4(OH)2 + ?KOH + 2MnO2', 2),
+  _equationChemical('1KMnO4 + 3C2H4 + 4H2O -> 4C2H4(OH)2 + 2KOH + ?MnO2', 2),
+  _equationChemical('?HCHO + 2Br2 + 1H2O -> 2HBr + 1CO2', 1),// 1 2 1 1 2
+  _equationChemical('1HCHO + ?Br2 + 1H2O -> 2HBr + 1CO2', 2),
+  _equationChemical('1HCHO + 2Br2 + ?H2O -> 2HBr + 1CO2', 1),
+  _equationChemical('1HCHO + 2Br2 + 1H2O -> ?HBr + 1CO2', 1),
+  _equationChemical('1HCHO + 2Br2 + 1H2O -> 2HBr + ?CO2', 2),
+  _equationChemical('?AgNO3 + 1H2O + 4NH3 + 1HCOOH -> 1(NH4)2CO3 + 2Ag + 2NH4NO3', 2),//2 1 4 1 1 2 2
+  _equationChemical('2AgNO3 + ?H2O + 4NH3 + 1HCOOH -> 1(NH4)2CO3 + 2Ag + 2NH4NO3', 1),
+  _equationChemical('2AgNO3 + 1H2O + ?NH3 + 1HCOOH -> 1(NH4)2CO3 + 2Ag + 2NH4NO3', 4),
+  _equationChemical('2AgNO3 + 1H2O + 4NH3 + ?HCOOH -> 1(NH4)2CO3 + 2Ag + 2NH4NO3', 1),
+  _equationChemical('2AgNO3 + 1H2O + 4NH3 + 1HCOOH -> ?(NH4)2CO3 + 2Ag + 2NH4NO3', 1),
+  _equationChemical('2AgNO3 + 1H2O + 4NH3 + 1HCOOH -> 1(NH4)2CO3 + ?Ag + 2NH4NO3', 2),
+  _equationChemical('2AgNO3 + 1H2O + 4NH3 + 1HCOOH -> 1(NH4)2CO3 + 2Ag + ?NH4NO3', 2),
+  _equationChemical('?O2 + 1C2H4O2 -> 2H2O + 2CO2', 2),// 2 1 2 2
+  _equationChemical('2O2 + ?C2H4O2 -> 2H2O + 2CO2', 1),
+  _equationChemical('2O2 + 1C2H4O2 -> ?H2O + 2CO2', 2),
+  _equationChemical('2O2 + 1C2H4O2 -> 2H2O + ?CO2', 2),
+  _equationChemical('?C2H5OH + 1C2H4O2 -> 3H2O + 2C4H8O', 3),//3 1 3 2
+  _equationChemical('3C2H5OH + ?C2H4O2 -> 3H2O + 2C4H8O', 1),
+  _equationChemical('3C2H5OH + 1C2H4O2 -> ?H2O + 2C4H8O', 3),
+  _equationChemical('3C2H5OH + 1C2H4O2 -> 3H2O + ?C4H8O', 2),
+  _equationChemical('?C6H6 + 3Cl -> 1C6H6Cl6', 1),// 1 3 1
+  _equationChemical('1C6H6 + ?Cl -> 1C6H6Cl6', 3),
+  _equationChemical('1C6H6 + 3Cl -> ?C6H6Cl6', 1),
+  _equationChemical('?H2 + 1C6H5CHCH2 -> 1C6H5CH2CH3', 1),// 1 1 1
+  _equationChemical('1H2 + ?C6H5CHCH2 -> 1C6H5CH2CH3', 1),
+  _equationChemical('1H2 + 1C6H5CHCH2 -> ?C6H5CH2CH3', 1),
+  _equationChemical('?H2SO4 + 1Ba(AlO2)2 + -> 1Al2(SO4)3 + 4H2O + 1BaSO4', 4),//4 1 1 4 1
+  _equationChemical('4H2SO4 + ?Ba(AlO2)2 + -> 1Al2(SO4)3 + 4H2O + 1BaSO4', 1),
+  _equationChemical('4H2SO4 + 1Ba(AlO2)2 + -> ?Al2(SO4)3 + 4H2O + 1BaSO4', 1),
+  _equationChemical('4H2SO4 + 1Ba(AlO2)2 + -> 1Al2(SO4)3 + ?H2O + 1BaSO4', 4),
+  _equationChemical('4H2SO4 + 1Ba(AlO2)2 + -> 1Al2(SO4)3 + 4H2O + ?BaSO4', 1),
+  _equationChemical('?H2O + 2NaHSO4 + 1Ba(AlO2)2 -> 2Al(OH)3 + 1Na2SO4 + 1BaSO4', 2),//2 2 1 2 1 1
+  _equationChemical('2H2O + ?NaHSO4 + 1Ba(AlO2)2 -> 2Al(OH)3 + 1Na2SO4 + 1BaSO4', 2),
+  _equationChemical('2H2O + 2NaHSO4 + ?Ba(AlO2)2 -> 2Al(OH)3 + 1Na2SO4 + 1BaSO4', 1),
+  _equationChemical('2H2O + 2NaHSO4 + 1Ba(AlO2)2 -> ?Al(OH)3 + 1Na2SO4 + 1BaSO4', 2),
+  _equationChemical('2H2O + 2NaHSO4 + 1Ba(AlO2)2 -> 2Al(OH)3 + ?Na2SO4 + 1BaSO4', 1),
+  _equationChemical('2H2O + 2NaHSO4 + 1Ba(AlO2)2 -> 2Al(OH)3 + 1Na2SO4 + ?BaSO4', 1),
+  _equationChemical('?Ba(AlO2)2 + 1Na2CO3 + 4H2O -> 1BaCO3 + 2Al(OH)3 + 2NaOH', 1),//1 1 4 1 2 2
+  _equationChemical('1Ba(AlO2)2 + ?Na2CO3 + 4H2O -> 1BaCO3 + 2Al(OH)3 + 2NaOH', 1),
+  _equationChemical('1Ba(AlO2)2 + 1Na2CO3 + ?H2O -> 1BaCO3 + 2Al(OH)3 + 2NaOH', 4),
+  _equationChemical('1Ba(AlO2)2 + 1Na2CO3 + 4H2O -> ?BaCO3 + 2Al(OH)3 + 2NaOH', 1),
+  _equationChemical('1Ba(AlO2)2 + 1Na2CO3 + 4H2O -> 1BaCO3 + ?Al(OH)3 + 2NaOH', 2),
+  _equationChemical('1Ba(AlO2)2 + 1Na2CO3 + 4H2O -> 1BaCO3 + 2Al(OH)3 + ?NaOH', 2),
+  _equationChemical('?H2O + 3Na2CO3 + 2FeCl3 -> 6NaCl + 3CO2 + 2Fe(OH)3', 3),//3 3 2 6 3 2
+  _equationChemical('3H2O + ?Na2CO3 + 2FeCl3 -> 6NaCl + 3CO2 + 2Fe(OH)3', 3),
+  _equationChemical('3H2O + 3Na2CO3 + ?FeCl3 -> 6NaCl + 3CO2 + 2Fe(OH)3', 2),
+  _equationChemical('3H2O + 3Na2CO3 + 2FeCl3 -> ?NaCl + 3CO2 + 2Fe(OH)3', 6),
+  _equationChemical('3H2O + 3Na2CO3 + 2FeCl3 -> 6NaCl + ?CO2 + 2Fe(OH)3', 3),
+  _equationChemical('3H2O + 3Na2CO3 + 2FeCl3 -> 6NaCl + 3CO2 + ?Fe(OH)3', 2),
+  _equationChemical('?NaOH + 1CuCl2 -> 1Cu(OH)2 + 2NaCl', 2),
+]; // den dong 156, gom 101 PTHH
+
+class ChemicalEquationGameScreen extends StatelessWidget {
+  const ChemicalEquationGameScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     _extBuildContext = context;
@@ -51,8 +170,8 @@ class QuickMathGameScreen extends StatelessWidget {
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
-              QuickMathGameDisplay(),
-              QuickMathGameKeypad(context: context),
+              ChemicalEquationGameDisplay(),
+              ChemicalEquationGameKeypad(context: context),
             ],
           ),
         ),
@@ -61,8 +180,8 @@ class QuickMathGameScreen extends StatelessWidget {
   }
 }
 
-class QuickMathGameKeypad extends StatelessWidget {
-  QuickMathGameKeypad({Key? key, required BuildContext context})
+class ChemicalEquationGameKeypad extends StatelessWidget {
+  ChemicalEquationGameKeypad({Key? key, required BuildContext context})
       : super(key: key);
   BuildContext context = _extBuildContext;
   Widget _keypadButton(
@@ -82,9 +201,9 @@ class QuickMathGameKeypad extends StatelessWidget {
                 style: _buttonType == 'num'
                     ? Theme.of(context).accentTextTheme.headline4
                     : TextStyle(
-                        fontFamily: 'MaterialIcons',
-                        fontSize: 46,
-                      ),
+                  fontFamily: 'MaterialIcons',
+                  fontSize: 46,
+                ),
               ),
             ),
           ),
@@ -134,13 +253,13 @@ class QuickMathGameKeypad extends StatelessWidget {
   }
 }
 
-class QuickMathGameDisplay extends StatefulWidget {
-  const QuickMathGameDisplay({Key? key}) : super(key: key);
+class ChemicalEquationGameDisplay extends StatefulWidget {
+  const ChemicalEquationGameDisplay({Key? key}) : super(key: key);
   @override
-  _QuickMathGameDisplayState createState() => _QuickMathGameDisplayState();
+  _ChemicalEquationGameDisplayState createState() => _ChemicalEquationGameDisplayState();
 }
 
-class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
+class _ChemicalEquationGameDisplayState extends State<ChemicalEquationGameDisplay> {
   Random random = Random(DateTime.now().millisecondsSinceEpoch);
 
   String _question = 'Press Start';
@@ -158,30 +277,20 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
       Duration(
         days: 1,
       ),
-      (timer) => {});
+          (timer) => {});
   bool _finished = false;
 
-  int _limL = 1, _limR = 9;
+  int _limL = 0, _limR = 100;
   int _getRandomNumber() {
     int len = _limR - _limL + 1;
     return _limL + random.nextInt(len);
   }
 
   void _generateNumberForLevel(int _level) {
-    int num1 = _getRandomNumber();
-    int num2 = _getRandomNumber();
-    if (num1 > num2) {
-      int tmp = num1;
-      num1 = num2;
-      num2 = tmp;
-    }
-    _answerActualNumber = num1 + num2;
-    _answerNumber = _answerActualNumber.toString();
-    _question = num1.toString() + ' + ' + num2.toString();
-    if (_level % 5 == 0) {
-      _limL *= 10;
-      _limR = _limR * 10 + 9;
-    }
+    int _i = _getRandomNumber();
+
+    _answerNumber = _dataChemical[_i].getAnswerChemical().toString();
+    _question = _dataChemical[_i].getQuestionChemical();
   }
 
   void _newLevel() {
@@ -298,7 +407,7 @@ class _QuickMathGameDisplayState extends State<QuickMathGameDisplay> {
                           builder: (context, snapshot) {
                             return Text(
                               _question,
-                              style: Theme.of(context).textTheme.headline3,
+                              style: Theme.of(context).textTheme.headline6,
                             );
                           }),
                     ),
