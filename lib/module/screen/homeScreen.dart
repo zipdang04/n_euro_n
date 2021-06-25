@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:n_euro_n/module/core/exerciseHandler.dart';
+import 'package:n_euro_n/module/core/personalProgressHandler.dart';
 import 'dart:math';
 
 class HomeScreen extends StatelessWidget {
@@ -68,56 +69,81 @@ class WelcomeBox extends StatelessWidget {
 }
 
 class ProgressBox extends StatelessWidget {
-  double _progressValue = 0;
-  int _tasksRemaining = 0;
+  double _scorePercentage = 0;
+  int _currentBestScore = 0;
+  int _maxBestScore = 2000;
   ProgressBox({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    _progressValue = 0.75;
-    _tasksRemaining = 2;
-    return Card(
-      child: Container(
-        padding: EdgeInsets.all(24),
-        child: Row(
-          children: [
-            SizedBox(
-              height: 160,
-              width: 160,
-              child: Stack(
+  Future<int> _getCurrentBestScore() async {
+    var _temp = await getAllHighscore();
+    int _output = _temp['Number Type Speed'] ?? 0;
+    return _output;
+  }
+  Widget _getLoadedCard(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(24),
+      child: Row(
+        children: [
+          SizedBox(
+            height: 140,
+            width: 140,
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: 140,
+                  width: 140,
+                  child: CircularProgressIndicator(
+                    value: _scorePercentage,
+                    strokeWidth: 16,
+                    backgroundColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
+                Center(
+                  child: Text((_scorePercentage * 100).toInt().toString(), style: Theme.of(context).textTheme.headline3),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 140,
+            width: 16,
+          ),
+          Expanded(
+            child: Center(
+              child: Column(
                 children: [
-                  SizedBox(
-                    height: 160,
-                    width: 160,
-                    child: CircularProgressIndicator(
-                      value: _progressValue,
-                      strokeWidth: 24,
-                      backgroundColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
-                      color: Theme.of(context).accentColor,
-                    ),
-                  ),
-                  Center(
-                    child: Text((_progressValue * 100).toInt().toString() + '%', style: Theme.of(context).textTheme.headline3),
-                  ),
+                  Text('Game: Number', style: Theme.of(context).textTheme.headline6,),
+                  Text('Type Speed', style: Theme.of(context).textTheme.headline6,),
+                  SizedBox(height: 16,),
+                  Text('Your highscore:', style: Theme.of(context).textTheme.headline6,),
+                  Text(_currentBestScore.toString(), style: Theme.of(context).textTheme.headline4,),
                 ],
               ),
             ),
-            SizedBox(
-              height: 160,
-              width: 16,
-            ),
-            Expanded(
-              child: Center(
-                child: Column(
-                  children: [
-                    Text('Complete', style: Theme.of(context).textTheme.headline5,),
-                    Text(_tasksRemaining.toString(), style: Theme.of(context).textTheme.headline3,),
-                    Text('more tasks', style: Theme.of(context).textTheme.headline5,),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
+      ),
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
+    _scorePercentage = 0.82;
+    _currentBestScore = 2;
+    return Card(
+      child: FutureBuilder(
+        future: _getCurrentBestScore(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              _currentBestScore = int.parse(snapshot.data.toString());
+              _scorePercentage = _currentBestScore / _maxBestScore;
+              return _getLoadedCard(context);
+            }
+          } else {
+            return Container(height: 188,);
+          }
+          return Container();
+        }
       ),
     );
   }

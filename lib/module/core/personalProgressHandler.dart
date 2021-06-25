@@ -142,3 +142,15 @@ Future<Map<String, int>> getAllOverallScore() async {
   }
   return _output;
 }
+
+Future<Map<String, int>> getAllHighscore() async {
+  Map<String, int> _output = {};
+  List<Exercise> _exerciseList = getExerciseList();
+  final _dataBox = await Hive.openBox('dataBox');
+  for (int _i = 0; _i < _exerciseList.length; _i++) {
+    String _name = _exerciseList.elementAt(_i).getName();
+    int _overallScore = _dataBox.get(getGameIDFromName(_name) + 'Highscore', defaultValue: 0);
+    _output[_name] = _overallScore;
+  }
+  return _output;
+}
