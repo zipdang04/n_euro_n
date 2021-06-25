@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
     ];
     _items.addAll(HomeScreenDashboard().getDashboardTasks2InARow(context));
     _items.add(Container());
+    //_items.add(Image.asset('assets/user_icon/user_icon_logo.png'));
     return Container(
       child: ListView.separated(
         padding: EdgeInsets.all(16),
@@ -57,9 +58,11 @@ class WelcomeBox extends StatelessWidget {
               ),
             ),
             Container(
-              color: Colors.red,
+              //color: Colors.red,
               height: 96,
               width: 96,
+              //child: Image(image: AssetImage('assets/userIcon/userIconGear.png')),
+              child: Image.asset('assets/user_icon/user_icon_logo.png'),
             ),
           ],
         ),

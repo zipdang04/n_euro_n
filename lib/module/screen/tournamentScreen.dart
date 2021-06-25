@@ -74,9 +74,10 @@ class PersonalRankBox extends StatelessWidget {
               ),
             ),
             Container(
-              color: Colors.red,
+              //color: Colors.red,
               height: 96,
               width: 96,
+              child: Image.asset('assets/user_icon/user_icon_logo.png'),
             ),
           ],
         ),
@@ -154,18 +155,19 @@ class TopRankBox extends StatelessWidget {
               child: Center(
                 child: Column(
                   children: [
-                    SizedBox(height: 24,),
+                    //SizedBox(height: 24,),
                     Container(
                       height: 60,
                       width: 60,
-                      color: Colors.red,
+                      //color: Colors.red,
+                      child: Image.asset('assets/user_icon/user_icon_person.png'),
                     ),
                     SizedBox(height: 8,),
                     Text(_topPlayersNames[1], style: Theme.of(context).textTheme.headline5,),
                     SizedBox(height: 8,),
                     Text('#2', style: Theme.of(context).textTheme.headline6,),
                     Text(_topPlayersScores[1].toString(), style: Theme.of(context).textTheme.headline6,),
-                    SizedBox(height: 24,),
+                    //SizedBox(height: 24,),
                   ],
                 ),
               ),
@@ -177,14 +179,15 @@ class TopRankBox extends StatelessWidget {
                     Container(
                       height: 60,
                       width: 60,
-                      color: Colors.red,
+                      //color: Colors.red,
+                      child: Image.asset('assets/user_icon/user_icon_gear.png'),
                     ),
                     SizedBox(height: 8,),
                     Text(_topPlayersNames[0], style: Theme.of(context).textTheme.headline5,),
                     SizedBox(height: 8,),
                     Text('#1', style: Theme.of(context).textTheme.headline6,),
                     Text(_topPlayersScores[0].toString(), style: Theme.of(context).textTheme.headline6,),
-                    SizedBox(height: 48,),
+                    //SizedBox(height: 48,),
                   ],
                 ),
               ),
@@ -193,11 +196,12 @@ class TopRankBox extends StatelessWidget {
               child: Center(
                 child: Column(
                   children: [
-                    SizedBox(height: 48,),
+                    //SizedBox(height: 48,),
                     Container(
                       height: 60,
                       width: 60,
-                      color: Colors.red,
+                      //color: Colors.red,
+                      child: Image.asset('assets/user_icon/user_icon_code.png'),
                     ),
                     SizedBox(height: 8,),
                     Text(_topPlayersNames[2], style: Theme.of(context).textTheme.headline5,),

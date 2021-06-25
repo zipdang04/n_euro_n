@@ -93,3 +93,4 @@ flutter:
   assets:
     - google_fonts/
     - google_fonts/static/
+    - assets/user_icon/
