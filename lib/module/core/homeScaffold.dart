@@ -10,7 +10,7 @@ class HomeScaffold extends StatefulWidget {
 }
 
 class _HomeScaffoldState extends State<HomeScaffold> {
-  int _selectedTab = 2;
+  int _selectedTab = 2, _previousTab = 2;
   List<Widget> _tabs = <Widget>[
     getAllExerciseScreen(),
     Placeholder(color: Colors.amber,),
@@ -19,7 +19,11 @@ class _HomeScaffoldState extends State<HomeScaffold> {
     Placeholder(color: Colors.deepPurple,)
   ];
   void _onItemTapped(int _index) {
+    if (_selectedTab == _index) {
+      return;
+    }
     setState(() {
+      _previousTab = _selectedTab;
       _selectedTab = _index;
     });
   }
@@ -36,7 +40,23 @@ class _HomeScaffoldState extends State<HomeScaffold> {
       //appBar: AppBar(title: Text('Demo'),),
       body: SafeArea(
         child: Container(
-          child: _tabs.elementAt(_selectedTab),
+          child: AnimatedSwitcher(
+            duration: Duration(milliseconds: 400),
+            child: _tabs.elementAt(_selectedTab),
+            switchInCurve: Curves.fastOutSlowIn,
+            switchOutCurve: Curves.fastOutSlowIn,
+            transitionBuilder: (_child, _animation) {
+              Alignment _transitionAlignment = Alignment.center;
+              Alignment _fromLeft = Alignment.centerLeft, _fromRight = Alignment.centerRight;
+              if (_child != _tabs.elementAt(_selectedTab)) {
+                _transitionAlignment = _selectedTab < _previousTab ? _fromRight : _fromLeft;
+              } else {
+                _transitionAlignment = _selectedTab > _previousTab ? _fromRight : _fromLeft;
+              }
+              return ScaleTransition(child: _child, scale: _animation, alignment: _transitionAlignment,);
+            }
+            ,
+          ),
           padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
         ),
       ),

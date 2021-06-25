@@ -62,7 +62,7 @@ List<Exercise> getExerciseList() {
     Exercise(
       name: 'Quick Math', //two plus two is four, minus one it's three quick math!
       exerciseDestination: getQuickMath(),
-      description: "Calculate as possible"
+      description: "Calculate as fast as possible"
     ),
   );
   _items.add(
