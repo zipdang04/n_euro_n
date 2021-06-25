@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:n_euro_n/module/core/personalProgressHandler.dart';
 
 class StringUpdateStream {
   final _controller = StreamController<String>.broadcast();
@@ -367,6 +368,7 @@ class _ChemicalEquationGameDisplayState extends State<ChemicalEquationGameDispla
     if (_finished) {
       return;
     }
+    addGameToHistory('Chemical Equation', _getFinalScore(_score, _counter));
     _finished = true;
     _question = 'Done';
     _secondaryReactionStream.sendData('update');
