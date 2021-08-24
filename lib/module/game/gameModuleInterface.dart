@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'numberTypeSpeedGame.dart';
+import 'numberTypeSpeedGameReborn.dart';
 import 'quickMathGame.dart';
 import 'ChemicalEquationGame.dart';
 import 'numberSequenceMemoryGame.dart';
