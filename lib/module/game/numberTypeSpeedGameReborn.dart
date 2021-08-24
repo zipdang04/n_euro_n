@@ -265,7 +265,7 @@ class _NumberTypeSpeedGameDisplayState extends State<NumberTypeSpeedGameDisplay>
                       ),
                     ),
                     Container(
-                      // Timer
+                        // Timer
                       alignment: Alignment.topRight,
                       child: StreamBuilder<String>(
                         stream: _timerUpdateStream.stream,

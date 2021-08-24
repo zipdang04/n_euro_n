@@ -89,6 +89,13 @@ List<Exercise> getExerciseList() {
           description: 'Accumulate the number showing on the screen. Also hurts your memory a whole lot!'
       )
   );
+  _items.add(
+    Exercise(
+      name: 'Quick Press',
+      exerciseDestination: getAimBot(),
+      description: 'None'
+    )
+  );
   return _items;
 }
 
