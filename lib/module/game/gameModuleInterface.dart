@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'numberTypeSpeedGameReborn.dart';
 import 'quickMathGame.dart';
-import 'ChemicalEquationGame.dart';
+import 'ChemicalEquationGame/ChemicalEquationGame.dart';
 import 'numberSequenceMemoryGame.dart';
 import 'numberPile.dart';
 Widget getGameNumberTypeSpeed() {
