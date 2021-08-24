@@ -156,6 +156,7 @@ class HomeScreenDashboard {
   List<Widget> getDashboardTasks2InARow(BuildContext context) {
     List<Exercise> _exerciseList = getExerciseList()..shuffle();
     List<String> _cardText = [
+      'New exercise introduced in the 1.0.1 QoL update',
       'New exercises introduced in the 1.0.0 update',
       'Topic: Can you beat the developers?',
       'Recommended exercise for you'
@@ -165,6 +166,19 @@ class HomeScreenDashboard {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(_cardText.elementAt(0), style: Theme.of(context).textTheme.headline4,),
+          SizedBox(height: 16,),
+          Text('We are very happy to introduce you our new exercise and some optimization.',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Text('Try it out in the All Exercise Screen - the first tab in the tab bar',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ],
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(_cardText.elementAt(1), style: Theme.of(context).textTheme.headline4,),
           SizedBox(height: 16,),
           Text('We are very happy to introduce you our new exercises.',
             style: Theme.of(context).textTheme.headline6,
@@ -177,7 +191,7 @@ class HomeScreenDashboard {
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(_cardText.elementAt(1), style: Theme.of(context).textTheme.headline4,),
+          Text(_cardText.elementAt(2), style: Theme.of(context).textTheme.headline4,),
           SizedBox(height: 16,),
           Text('Try to beat our score at the exercises',
             style: Theme.of(context).textTheme.headline6,
@@ -190,7 +204,7 @@ class HomeScreenDashboard {
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(_cardText.elementAt(2), style: Theme.of(context).textTheme.headline4,),
+          Text(_cardText.elementAt(3), style: Theme.of(context).textTheme.headline4,),
           SizedBox(height: 16,),
           Container(
             height: 200,

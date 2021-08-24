@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:n_euro_n/module/game/AimBotGame.dart';
 import 'numberTypeSpeedGameReborn.dart';
 import 'quickMathGame.dart';
 import 'ChemicalEquationGame/ChemicalEquationGame.dart';
@@ -22,4 +23,8 @@ Widget getGameNumberSequenceMemory() {
 
 Widget getNumberPile(){
   return NumberPileGameScreen();
+}
+
+Widget getAimBot() {
+  return AimBotGameScreen();
 }
